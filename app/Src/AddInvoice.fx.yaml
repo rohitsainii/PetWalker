@@ -1,0 +1,936 @@
+AddInvoice As screen:
+
+    Back_14 As icon.Reset:
+        Color: =RGBA(51, 51, 51, 1)
+        Height: =30
+        Icon: =Icon.Reset
+        OnSelect: =Back()
+        Width: =30
+        X: =1141
+        Y: =16
+        ZIndex: =1
+
+    userprofilename_15 As label:
+        Size: =14
+        Text: |-
+            ="Rohit Saini
+            "
+        Width: =137
+        X: =1187
+        Y: =10
+        ZIndex: =2
+
+    userprofilepic_15 As image:
+        BorderColor: =RGBA(51, 51, 51, 1)
+        BorderThickness: =1
+        Height: =45
+        Image: |-
+            =If(
+                    // check if the the user has an email and a profile picture
+                    !IsBlank(Useremail)
+                    And Office365Users.UserPhotoMetadata(Useremail).HasPhoto,
+                    // get the profile picture
+                    Office365Users.UserPhotoV2(Useremail)
+                )
+        OnSelect: =Navigate(Profile)
+        RadiusBottomLeft: =100
+        RadiusBottomRight: =100
+        RadiusTopLeft: =100
+        RadiusTopRight: =100
+        Width: =45
+        X: =1307
+        Y: =9
+        ZIndex: =3
+
+    lblPetDetailTitle_5 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =58
+        Size: =24
+        Text: ="Invoice"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        Width: =351
+        X: =534
+        Y: =3
+        ZIndex: =4
+
+    Label29_15 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Pet"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        X: =183
+        Y: =85
+        ZIndex: =5
+
+    Label29_16 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Owner"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        X: =287
+        Y: =86
+        ZIndex: =6
+
+    Label29_17 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Trip Start Date"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        Width: =207
+        X: =401
+        Y: =86
+        ZIndex: =7
+
+    Label29_18 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Trip Start Time"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        Width: =181
+        X: =603
+        Y: =86
+        ZIndex: =8
+
+    Label29_19 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Trip End Date"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        Width: =178
+        X: =784
+        Y: =85
+        ZIndex: =9
+
+    Label29_20 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Trip End Time"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        Width: =173
+        X: =962
+        Y: =85
+        ZIndex: =10
+
+    Label29_21 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Trip Cost"
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        Width: =173
+        X: =1130
+        Y: =85
+        ZIndex: =11
+
+    "Gallery3 As gallery.'BrowseLayout_Vertical_ThreeTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Fill: =RGBA(237, 237, 237, 1)
+        Height: =643
+        Items: =Filter( trip, 'Has attachments' And isCompleted=true)
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        OnSelect: =Set(showpdf,true)
+        TemplatePadding: =0
+        TemplateSize: =116
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        Width: =1293
+        X: =68
+        Y: =125
+        ZIndex: =12
+
+        Title4_1 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(50, 49, 48, 1)
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Normal, FontWeight.Normal)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: =ThisItem.petName
+            X: =113
+            Y: =33
+            ZIndex: =2
+
+        Subtitle3_1 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Normal, FontWeight.Normal)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: =LookUp(User,Title=ThisItem.pet_Owner_id,FirstName)
+            X: =218
+            Y: =33
+            ZIndex: =3
+
+        Body1 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Normal, FontWeight.Normal)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: =Text(ThisItem.startDate,"dd mmm yyyy")
+            X: =360
+            Y: =33
+            ZIndex: =4
+
+        Separator7_4 As rectangle:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =8
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - Self.Height
+            ZIndex: =6
+
+        Rectangle2_19 As rectangle:
+            Fill: =RGBA(0, 18, 107, 1)
+            Height: =Parent.TemplateHeight - Separator7_4.Height
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =7
+
+        Label48 As label:
+            Align: =Align.Center
+            OnSelect: =Select(Parent)
+            Size: =14
+            Text: ="₹" & ThisItem.tripCost
+            X: =1059
+            Y: =30
+            ZIndex: =11
+
+        Icon17_2 As icon.DocumentPDF:
+            Color: =RGBA(102, 102, 102, 1)
+            Height: =43
+            Icon: =Icon.DocumentPDF
+            OnSelect: =Select(Parent)
+            Width: =34
+            X: =1236
+            Y: =30
+            ZIndex: =12
+
+        Subtitle7_2 As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Normal, FontWeight.Normal)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: |-
+                =Text(ThisItem.startTime,"HH:mm AM/PM")
+            X: =557
+            Y: =33
+            ZIndex: =13
+
+        Label27_2 As label:
+            Align: =Align.Center
+            OnSelect: =Select(Parent)
+            Size: =14
+            Text: |-
+                =Text(ThisItem.endTime,"HH:mm AM/PM")
+            X: =915
+            Y: =30
+            ZIndex: =14
+
+        Label28_4 As label:
+            Align: =Align.Center
+            OnSelect: =Select(Parent)
+            Size: =14
+            Text: =Text(ThisItem.endDate,"dd mmm yyyy")
+            X: =729
+            Y: =33
+            ZIndex: =15
+
+        Title4_2 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(50, 49, 48, 1)
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Normal, FontWeight.Normal)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =14
+            Text: ="INV-"&ThisItem.ID
+            X: =4
+            Y: =33
+            ZIndex: =16
+
+    PdfViewer1 As pdfViewer:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        Document: |-
+            ="appres://datasources/trip/table/cc07656a-ffcf-4326-bc86-99433e01421a/rows/72/reference/https:%2F%2Funitedstates-002.azure-apim.net%2Fapim%2Fsharepointonline%2Fa6af98449fee40fd8305b51e8f315488%2Fdatasets%2Fhttps%25253a%25252f%25252fjudgegrp.sharepoint.com%25252fsites%25252fTeamCloud%2FGetFileContentByPath%3Fpath=%252fLists%252fTrip%252fAttachments%252f" & Gallery3.Selected.ID & "%252fINV-"& Gallery3.Selected.ID &".pdf"
+        Fill: =RGBA(0, 0, 0, 0.5)
+        Height: =768
+        ShowControls: =true
+        Visible: =showpdf
+        Width: =725
+        X: =641
+        ZIndex: =13
+
+    "'No invoice generated' As label":
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =99
+        Size: =20
+        Text: ="No Invoice Generated"
+        Visible: =
+        Width: =357
+        X: =528
+        Y: =320
+        ZIndex: =14
+
+    Count As label:
+        Text: =CountRows('Invoice pdf')
+        Visible: =false
+        X: =83
+        Y: =728
+        ZIndex: =15
+
+    tripup_18 As icon.ChevronDown:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronLeft
+        OnSelect: =
+        Visible: =
+        Width: =25
+        X: =280
+        Y: =419
+        ZIndex: =34
+
+    invoiceup_18 As icon.ChevronDown:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronLeft
+        OnSelect: =
+        Visible: =
+        Width: =25
+        X: =280
+        Y: =615
+        ZIndex: =35
+
+    invoicedown_18 As icon.ChevronDown:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Set(invoicesubmenu,false)
+        Visible: =invoicesubmenu
+        Width: =25
+        X: =280
+        Y: =618
+        ZIndex: =36
+
+    tripdown_18 As icon.ChevronDown:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Set(tripsubmenu,false);Set(petsubmenu,false);Set(invoicesubmenu,false)
+        Visible: =tripsubmenu
+        Width: =25
+        X: =280
+        Y: =427
+        ZIndex: =37
+
+    petdoun_18 As icon.ChevronDown:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronLeft
+        OnSelect: =
+        Visible: =
+        Width: =25
+        X: =280
+        Y: =295
+        ZIndex: =38
+
+    shpMenuBgBlurr_41 As rectangle:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Fill: =RGBA(22, 38, 50, 0.5)
+        Height: =768
+        OnSelect: =Set(showmenu,false);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+        Visible: =showmenu
+        Width: =1053
+        X: =313
+        ZIndex: =39
+
+    Icon4_18 As icon.ChevronUp:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronUp
+        OnSelect: =Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+        Visible: =petsubmenu
+        Width: =25
+        X: =280
+        Y: =295
+        ZIndex: =47
+
+    Icon5_18 As icon.ChevronRight:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronRight
+        OnSelect: =Set(tripsubmenu,true);Set(petsubmenu,false);Set(invoicesubmenu,false)
+        Visible: =!tripsubmenu And clearsubicon
+        Width: =25
+        X: =280
+        Y: =427
+        ZIndex: =48
+
+    Icon6_19 As icon.ChevronRight:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =25
+        Icon: =Icon.ChevronRight
+        OnSelect: =Set(invoicesubmenu,true);Set(petsubmenu,false);Set(tripsubmenu,false)
+        Visible: =!invoicesubmenu And clearsubicon
+        Width: =25
+        X: =288
+        Y: =615
+        ZIndex: =49
+
+    icnProfile_31 As icon.Hamburger:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =45
+        Icon: =Icon.Money
+        OnSelect: =Navigate(Revenue);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+        PaddingLeft: =5
+        Width: =45
+        X: =7
+        Y: =242
+        ZIndex: =50
+
+    btnHome_138 As button:
+        Align: =Align.Left
+        Fill: =RGBA(0, 0, 0, 1)
+        Height: =49
+        HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+        OnSelect: =Navigate(CompletedTrip);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+        PaddingBottom: =0
+        PaddingLeft: =8
+        PaddingRight: =0
+        PaddingTop: =0
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Text: ="Completed Trips"
+        Visible: =tripsubmenu
+        Width: =188
+        X: =316
+        Y: =554
+        ZIndex: =51
+
+    btnHome_139 As button:
+        Align: =Align.Left
+        Fill: =RGBA(0, 0, 0, 1)
+        Height: =43
+        HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+        OnSelect: =Navigate(open_booking1);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+        PaddingBottom: =0
+        PaddingLeft: =8
+        PaddingRight: =0
+        PaddingTop: =0
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Text: ="Open Bookings"
+        Visible: =tripsubmenu
+        Width: =195
+        X: =313
+        Y: =430
+        ZIndex: =52
+
+    btnProfile_31 As button:
+        Align: =Align.Left
+        Fill: =RGBA(0, 0, 0, 1)
+        Height: =34
+        HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+        OnSelect: =Navigate(Revenue);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+        PaddingBottom: =0
+        PaddingLeft: =8
+        PaddingRight: =0
+        PaddingTop: =0
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Text: ="Revenue"
+        Visible: =showmenu
+        Width: =213
+        X: =95
+        Y: =248
+        ZIndex: =53
+
+    Icon12_6 As icon.CancelBadge:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =32
+        Icon: =Icon.CancelBadge
+        OnSelect: =Set(showpdf,false)
+        Visible: =showpdf
+        Width: =43
+        X: =1217
+        Y: =14
+        ZIndex: =54
+
+    Label3_9 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =70
+        Size: =20
+        Text: ="No Invoice"
+        Visible: =If(CountRows(Gallery3.AllItems)=0,true,false)
+        Width: =259
+        X: =610
+        Y: =333
+        ZIndex: =55
+
+    Label29_22 As label:
+        Align: =Align.Center
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =18
+        Text: ="Invoice No."
+        Visible: |
+            =If(CountRows(Gallery3.AllItems)=0,false,true)
+        X: =68
+        Y: =84
+        ZIndex: =56
+
+    Menu_18 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =102
+
+        shpmenubg_18 As rectangle:
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =768
+            Visible: =showmenu
+            Width: =275
+            X: =40
+            ZIndex: =16
+
+        shpsidemenubg_18 As rectangle:
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =768
+            Width: =64
+            ZIndex: =17
+
+        menuOpen_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(showmenu,true);Set(clearsubicon,true)
+            Visible: =!showmenu
+            Width: =45
+            X: =12
+            Y: =15
+            ZIndex: =18
+
+        icnHome_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.Home
+            OnSelect: =Navigate(WalkerDashboard);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            Width: =45
+            X: =12
+            Y: =85
+            ZIndex: =19
+
+        icnProfile_14 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.Person
+            OnSelect: =Navigate(Profile);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            PaddingLeft: =5
+            Width: =45
+            X: =5
+            Y: =162
+            ZIndex: =20
+
+        icnTrips_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.Location
+            OnSelect: =Navigate(UpcomingTrips);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            Width: =45
+            X: =9
+            Y: =414
+            ZIndex: =21
+
+        icnWalker_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.People
+            OnSelect: =Navigate(PetDetails);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            Width: =45
+            X: =12
+            Y: =323
+            ZIndex: =22
+
+        iconInvoice_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.ListScrollEmpty
+            OnSelect: =Navigate(AddInvoice);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            Width: =45
+            X: =12
+            Y: =505
+            ZIndex: =23
+
+        icnComplaints_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.Support
+            OnSelect: =Navigate(Complaint_Open);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            Width: =45
+            X: =12
+            Y: =603
+            ZIndex: =24
+
+        icnLogout_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.Leave
+            OnSelect: =Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Navigate(LoginScreen);Set(clearsubicon,false)
+            Width: =45
+            X: =12
+            Y: =705
+            ZIndex: =25
+
+        btnHome_15 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(WalkerDashboard);Set(showmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Home"
+            Visible: =showmenu
+            Width: =213
+            X: =100
+            Y: =91
+            ZIndex: =26
+
+        btnProfile_14 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Profile);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Profile"
+            Visible: =showmenu
+            Width: =213
+            X: =100
+            Y: =170
+            ZIndex: =27
+
+        btnPets_18 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =47
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(PetDetails);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Pets"
+            Visible: =showmenu
+            Width: =212
+            X: =102
+            Y: =318
+            ZIndex: =28
+
+        btnTrips_18 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =45
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(UpcomingTrips);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Trips"
+            Visible: =showmenu
+            Width: =213
+            X: =100
+            Y: =415
+            ZIndex: =29
+
+        btnInvoice_18 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =44
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(AddInvoice);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Invoice"
+            Visible: =showmenu
+            Width: =212
+            X: =102
+            Y: =515
+            ZIndex: =30
+
+        btnComplaints_18 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Complaint_Open);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Complaints"
+            Visible: =showmenu
+            Width: =213
+            X: =100
+            Y: =613
+            ZIndex: =31
+
+        btnLogout_18 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Navigate(LoginScreen)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Logout"
+            Visible: =showmenu
+            Width: =213
+            X: =100
+            Y: =709
+            ZIndex: =32
+
+        menuclose_18 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            Visible: =showmenu
+            Width: =45
+            X: =12
+            Y: =16
+            ZIndex: =33
+
+    grptripsubmenu_18 As group:
+        Height: =5
+        Width: =5
+        X: =-216
+        Y: =60
+        ZIndex: =120
+
+        petsubmenubg_37 As rectangle:
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =220
+            Visible: =tripsubmenu
+            Width: =203
+            X: =309
+            Y: =428
+            ZIndex: =40
+
+        btnHome_142 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =54
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(UpcomingTrips);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Personal Bookings"
+            Visible: =tripsubmenu
+            Width: =195
+            X: =317
+            Y: =465
+            ZIndex: =41
+
+        btnHome_141 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =47
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(AcceptedTrip);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Accepted Trips"
+            Visible: =tripsubmenu
+            Width: =194
+            X: =318
+            Y: =511
+            ZIndex: =42
+
+        btnHome_140 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =64
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(RejectedTrip);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Rejected Trips"
+            Visible: =tripsubmenu
+            Width: =190
+            X: =318
+            Y: =584
+            ZIndex: =43
+
+    grpinvoicesubmenu_18 As group:
+        Height: =5
+        Width: =5
+        X: =-216
+        Y: =60
+        ZIndex: =122
+
+        petsubmenubg_38 As rectangle:
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =78
+            Visible: =invoicesubmenu
+            Width: =168
+            X: =313
+            Y: =607
+            ZIndex: =44
+
+        btnHome_143 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Complaint_Open);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Open"
+            Visible: =invoicesubmenu
+            Width: =156
+            X: =325
+            Y: =609
+            ZIndex: =45
+
+        btnHome_144 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =42
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Complaint_Close);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false);Set(clearsubicon,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Closed"
+            Visible: =invoicesubmenu
+            Width: =161
+            X: =320
+            Y: =640
+            ZIndex: =46
+
