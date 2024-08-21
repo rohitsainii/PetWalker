@@ -1,0 +1,1391 @@
+Pet_Details As screen:
+    OnVisible: |-
+        =ClearCollect(PetsCollection, pets);
+        ClearCollect(TripCollection, trip);
+        
+        
+        
+        
+        ClearCollect(
+            FilteredTrips,
+            Filter(
+                trip,
+                petID = Gallery4_4.Selected.Title
+            )
+        );
+        Set(
+            AveragePetRating,
+            Average(FilteredTrips, petRating)
+        );
+
+    Container5_9 As groupContainer.manualLayoutContainer:
+        Height: =731
+        Width: =430
+        X: =936
+        Y: =37
+        ZIndex: =1
+
+        "Gallery4_5 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderColor: =RGBA(32, 54, 71, 1)
+            DelayItemLoading: =true
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =691
+            Items: |-
+                =//Filter(trip, petName= Gallery4_4.Selected.name)
+                //Search( Filter(trip,Email = Gallery4_3.Selected.Email), searchWalker_1.Text, petName)
+                //Search( Filter(pets,Email = Gallery4_7.Selected.Email), searchpet_3.Text, Name, breed, address, dob)
+                //Search( Filter(trip,petName = Gallery4_4.Selected.name), searchpet_4.Text, walker, petName)
+                
+                
+                   //Search( Filter(trip, petID= Gallery4_4.Selected.Title), searchpet_4.Text, petName, walker)
+                   Search(
+                    Filter(
+                        TripCollection,
+                        petID = Gallery4_4.Selected.Title
+                    ),
+                    searchpet_4.Text,
+                    petName,
+                    walker
+                )
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: |-
+                =//Set(dogrecord, Gallery4_5.Selected)
+                Set(walkerinfo, Gallery4_5.Selected);
+                Navigate(All_Trips)
+            TemplatePadding: =0
+            TemplateSize: =95
+            Width: =430
+            Y: =40
+            ZIndex: =2
+
+            Image8_5 As image:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =72
+                Image: |-
+                    =//Office365Users.UserPhotoV2(trip.ownerEmail)
+                      //Office365Users.UserPhotoV2(ThisItem.walkerEmail)
+                    
+                    
+                    If(
+                            // check if the the user has an email and a profile picture
+                            !IsBlank(ThisItem.walkerEmail)
+                            And Office365Users.UserPhotoMetadata(ThisItem.walkerEmail).HasPhoto,
+                            // get the profile picture
+                            Office365Users.UserPhotoV2(ThisItem.walkerEmail)
+                        )
+                ImagePosition: =ImagePosition.Fill
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =100
+                RadiusBottomRight: =100
+                RadiusTopLeft: =100
+                RadiusTopRight: =100
+                Width: =72
+                X: =19
+                Y: =7
+                ZIndex: =1
+
+            Title5_5 As label:
+                BorderColor: =RGBA(0, 0, 0, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =24
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =14
+                Text: =ThisItem.walker
+                VerticalAlign: =VerticalAlign.Top
+                Width: =238
+                X: =180
+                Y: =4
+                ZIndex: =2
+
+            Subtitle4_5 As label:
+                BorderColor: =RGBA(0, 0, 0, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =21
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.endDate
+                VerticalAlign: =VerticalAlign.Top
+                Width: =91
+                X: =180
+                Y: =34
+                ZIndex: =3
+
+            Separator4_5 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Fill: =RGBA(255, 255, 255, 1)
+                Height: =8
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - Self.Height
+                ZIndex: =5
+
+            Rectangle8_10 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Fill: =RGBA(32, 54, 71, 1)
+                Height: =Parent.TemplateHeight - Separator4_5.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4
+                ZIndex: =6
+
+            Label8_5 As label:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =32
+                OnSelect: =Select(Parent)
+                Text: ="₹" &" " & ThisItem.tripCost
+                Width: =88
+                X: =178
+                Y: =54
+                ZIndex: =7
+
+            Label36 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =32
+                OnSelect: =Select(Parent)
+                Text: |-
+                    ="Name:"
+                Width: =84
+                X: =104
+                ZIndex: =8
+
+            Label37 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =34
+                OnSelect: =Select(Parent)
+                Text: |-
+                    ="Cost:"
+                Width: =64
+                X: =106
+                Y: =53
+                ZIndex: =9
+
+            Label38 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =23
+                OnSelect: =Select(Parent)
+                Text: |-
+                    ="Date:"
+                Width: =64
+                X: =104
+                Y: =32
+                ZIndex: =10
+
+        searchpet_4 As text:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Default: =
+            HintText: ="Search Trip..."
+            HoverBorderColor: =RGBA(32, 54, 71, 1)
+            HoverFill: =RGBA(205, 209, 213, 1)
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Width: =425
+            X: =5
+            Y: =2
+            ZIndex: =3
+
+        Icon15 As icon.Search:
+            Height: =40
+            Icon: =Icon.Search
+            Width: =30
+            X: =395
+            ZIndex: =4
+
+    Container5_8 As groupContainer.manualLayoutContainer:
+        Height: =728
+        Width: =430
+        X: =499
+        Y: =40
+        ZIndex: =2
+
+        Rectangle23_2 As rectangle:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =727
+            Width: =427
+            X: =1
+            ZIndex: =1
+
+        Image9_3 As image:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: =250
+            Image: =Gallery4_4.Selected.image
+            ImagePosition: =ImagePosition.Fill
+            RadiusBottomLeft: =250
+            RadiusBottomRight: =250
+            RadiusTopLeft: =250
+            RadiusTopRight: =250
+            Width: =250
+            X: =89
+            Y: =35
+            ZIndex: =2
+
+        Label6_30 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Text: ="Breed"
+            Width: =79
+            X: =37
+            Y: =400
+            ZIndex: =3
+
+        Label6_31 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: =34
+            Text: =Gallery4_4.Selected.breed
+            Width: =172
+            X: =230
+            Y: =406
+            ZIndex: =4
+
+        Label6_32 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: =34
+            Text: =Gallery4_4.Selected.gender.Value
+            Width: =85
+            X: =230
+            Y: =446
+            ZIndex: =5
+
+        Label6_33 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Text: ="Gender"
+            Width: =88
+            X: =37
+            Y: =444
+            ZIndex: =6
+
+        Label6_36 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =45
+            Text: ="Date Of Birth"
+            Width: =126
+            X: =37
+            Y: =485
+            ZIndex: =7
+
+        Label6_35 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Text: ="Address"
+            Width: =94
+            X: =37
+            Y: =571
+            ZIndex: =8
+
+        Label6_37 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: =43
+            Text: =Gallery4_4.Selected.dob
+            Width: =172
+            X: =228
+            Y: =485
+            ZIndex: =9
+
+        Label6_34 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: =78
+            Text: =Gallery4_4.Selected.address
+            VerticalAlign: =VerticalAlign.Top
+            Width: =193
+            X: =228
+            Y: =579
+            ZIndex: =10
+
+        Label6_38 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =43
+            Text: ="Blocked"
+            Width: =80
+            X: =37
+            Y: =528
+            ZIndex: =11
+
+        Label6_39 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: =58
+            Text: |-
+                =//Gallery4_4.Selected.IsBlocked.Value
+                If(Gallery4_4.Selected.IsBlocked, "Yes", "No")
+            Width: =172
+            X: =230
+            Y: =521
+            ZIndex: =12
+
+        Label13_3 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(32, 54, 71, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =50
+            Size: =18
+            Text: =Gallery4_4.Selected.name
+            Width: =386
+            X: =21
+            Y: =285
+            ZIndex: =13
+
+        Rating1_3 As rating:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Default: |-
+                =//Gallery4_4.Selected.rating
+                
+                AveragePetRating
+            DisplayMode: =DisplayMode.View
+            Height: =38
+            RatingFill: =RGBA(255, 191, 0, 1)
+            Width: =268
+            X: =80
+            Y: =335
+            ZIndex: =14
+
+        Icon5 As icon.Edit:
+            Color: =RGBA(0, 0, 0, 1)
+            Height: =35
+            Icon: =Icon.Edit
+            OnSelect: =Set(showpetform,true)
+            Visible: =!showpetform
+            Width: =35
+            X: =386
+            ZIndex: =16
+
+        Icon6 As icon.Edit:
+            Height: =42
+            Icon: =Icon.Cancel
+            OnSelect: =Set(showpetform,false)
+            Visible: =showpetform
+            Width: =42
+            X: =334
+            ZIndex: =17
+
+    Container5_7 As groupContainer.manualLayoutContainer:
+        Height: =731
+        Width: =423
+        X: =69
+        Y: =37
+        ZIndex: =3
+
+        "Gallery4_4 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Default: =petinfo
+            DelayItemLoading: =true
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =687
+            Items: |-
+                =//Search( If(IsBlank(petData),Gallery4_4.Selected), searchpet.Text,  breed)
+                
+                
+                Search(pets,searchpet.Text , name, breed)
+                
+                //Delegation
+                //Search(PetsCollection,searchpet.Text, name,breed)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =Set(dogrecord, Gallery4_4.Selected)
+            TemplatePadding: =0
+            TemplateSize: =114
+            Width: =423
+            Y: =44
+            ZIndex: =2
+
+            Image8_4 As image:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =72
+                Image: =ThisItem.image
+                ImagePosition: =ImagePosition.Fill
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =100
+                RadiusBottomRight: =100
+                RadiusTopLeft: =100
+                RadiusTopRight: =100
+                Width: =72
+                X: =14
+                Y: =17
+                ZIndex: =1
+
+            Title5_4 As label:
+                BorderColor: =RGBA(0, 0, 0, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =24
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =14
+                Text: =ThisItem.name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =104
+                X: =187
+                Y: =7
+                ZIndex: =2
+
+            Subtitle4_4 As label:
+                BorderColor: =RGBA(0, 0, 0, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =21
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =LookUp(User, Title=ThisItem.UseruniqueID,FirstName)& " " & LookUp(User, Title=ThisItem.UseruniqueID,LastName)
+                VerticalAlign: =VerticalAlign.Top
+                Width: =160
+                X: =186
+                Y: =70
+                ZIndex: =3
+
+            Rectangle8_9 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Fill: =RGBA(32, 54, 71, 1)
+                Height: =Parent.TemplateHeight - Separator4_4.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4
+                ZIndex: =6
+
+            Label8_4 As label:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =30
+                OnSelect: =Select(Parent)
+                Text: =ThisItem.gender.Value
+                Width: =91
+                X: =182
+                Y: =35
+                ZIndex: =7
+
+            Label21 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Bold
+                Height: =27
+                OnSelect: =Select(Parent)
+                Text: |-
+                    ="Pet:"
+                Width: =46
+                X: =96
+                Y: =8
+                ZIndex: =8
+
+            Label22 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Bold
+                Height: =31
+                OnSelect: =Select(Parent)
+                Text: |-
+                    ="Owner:"
+                Width: =88
+                X: =89
+                Y: =65
+                ZIndex: =9
+
+            Label23 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =25
+                OnSelect: =Select(Parent)
+                Text: |-
+                    ="Gender:"
+                Width: =86
+                X: =96
+                Y: =37
+                ZIndex: =10
+
+            Separator4_8 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Fill: =RGBA(255, 255, 255, 1)
+                Height: =5
+                OnSelect: =Select(Parent)
+                Width: =421
+                X: =2
+                Y: =109
+                ZIndex: =11
+
+            Rectangle5_4 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Fill: =RGBA(32, 54, 71, 1)
+                Height: =Parent.TemplateHeight - Separator5.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4
+                ZIndex: =12
+
+        searchpet As text:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Default: =
+            HintText: ="Search Pet Name..."
+            HoverBorderColor: =RGBA(32, 54, 71, 1)
+            HoverFill: =RGBA(205, 209, 213, 1)
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Width: =420
+            Y: =4
+            ZIndex: =5
+
+        Icon8 As icon.Search:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(32, 54, 71, 1)
+            Height: =40
+            Icon: =Icon.Search
+            OnSelect: =
+            Width: =33
+            X: =385
+            Y: =4
+            ZIndex: =6
+
+    Rectangle9 As rectangle:
+        Fill: =RGBA(219, 219, 219, 1)
+        Height: =397
+        Visible: =showpetform
+        Width: =427
+        X: =502
+        Y: =371
+        ZIndex: =45
+
+    Side_Bar_2 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =45
+
+        shpmenubg_2 As rectangle:
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =768
+            Visible: =showmenu
+            Width: =275
+            ZIndex: =6
+
+        shpsidemenubg_2 As rectangle:
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =768
+            Width: =64
+            ZIndex: =7
+
+        menuOpen_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(showmenu,true)
+            Visible: =!showmenu
+            Width: =40
+            X: =12
+            ZIndex: =8
+
+        icnHome_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Home
+            OnSelect: =Navigate(Admin_Dashboard);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =82
+            ZIndex: =9
+
+        icnProfile_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Person
+            OnSelect: =Navigate(Owner_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =167
+            ZIndex: =10
+
+        icnPets_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.PhotosPictures
+            OnSelect: =Navigate(Pet_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =252
+            ZIndex: =11
+
+        icnTrips_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Location
+            OnSelect: =Navigate(All_Trips);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =438
+            ZIndex: =12
+
+        icnWalker_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.People
+            OnSelect: =Navigate(Walker_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =7
+            Y: =345
+            ZIndex: =13
+
+        iconInvoice_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.ListScrollEmpty
+            OnSelect: =Navigate(Invoice_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =545
+            ZIndex: =14
+
+        icnComplaints_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Support
+            OnSelect: =Navigate(Complaints_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =635
+            ZIndex: =15
+
+        icnLogout_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Leave
+            OnSelect: =Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false); Navigate('Login Screen')
+            Width: =40
+            X: =12
+            Y: =728
+            ZIndex: =16
+
+        btnHome_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Admin_Dashboard);Set(showmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Home"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =88
+            ZIndex: =17
+
+        btnProfile_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Owner_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Owner"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =173
+            ZIndex: =18
+
+        btnPets_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Pet_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Pets"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =258
+            ZIndex: =19
+
+        btnTrips_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(All_Trips);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Trips"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =446
+            ZIndex: =20
+
+        btnWalkers_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Walker_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Walkers"
+            Visible: =showmenu
+            Width: =213
+            X: =59
+            Y: =352
+            ZIndex: =21
+
+        btnInvoice_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Invoice_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Invoice"
+            Visible: =showmenu
+            Width: =213
+            X: =57
+            Y: =543
+            ZIndex: =22
+
+        btnComplaints_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Complaints_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Complaints"
+            Visible: =showmenu
+            Width: =213
+            X: =57
+            Y: =634
+            ZIndex: =23
+
+        btnLogout_2 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false); Navigate('Login Screen')
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Logout"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =734
+            ZIndex: =24
+
+        menuclose_2 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Visible: =showmenu
+            Width: =40
+            X: =12
+            ZIndex: =25
+
+        shpMenuBgBlurr_25 As rectangle:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Fill: =RGBA(22, 38, 50, 0.5)
+            Height: =768
+            OnSelect: =Set(showmenu,false);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Visible: =showmenu
+            Width: =1090
+            X: =276
+            ZIndex: =32
+
+        Back_2 As icon.Reset:
+            Color: =RGBA(51, 51, 51, 1)
+            Height: =30
+            Icon: =Icon.Reset
+            OnSelect: =Back()
+            Width: =30
+            X: =1143
+            Y: =2
+            ZIndex: =42
+
+        userprofilepic_2 As image:
+            BorderColor: =RGBA(51, 51, 51, 1)
+            BorderThickness: =1
+            Height: =35
+            Image: =Office365Users.UserPhotoV2("skumar16@judge.com")
+            OnSelect: =Navigate(profile)
+            RadiusBottomLeft: =100
+            RadiusBottomRight: =100
+            RadiusTopLeft: =100
+            RadiusTopRight: =100
+            Width: =38
+            X: =1323
+            Y: =2
+            ZIndex: =43
+
+    Form3 As form:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DataSource: =pets
+        Fill: =RGBA(202, 202, 202, 1)
+        Height: =349
+        Item: =Gallery4_4.Selected
+        NumberOfColumns: =1
+        Visible: =showpetform
+        Width: =398
+        X: =515
+        Y: =371
+        ZIndex: =46
+
+        IsBlocked_DataCard2 As typedDataCard.toggleEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="IsBlocked"
+            Default: =ThisItem.IsBlocked
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@pets],DataSourceInfo.DisplayName,IsBlocked)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue25.Value
+            Width: =398
+            X: =0
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey26 As label:
+                AutoHeight: =true
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =34
+                Text: ="Blocked"
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue25.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue25 As toggleSwitch:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DisplayMode: =Parent.DisplayMode
+                FalseText: ="No"
+                Tooltip: =Parent.DisplayName
+                TrueFill: =RGBA(237, 237, 237, 1)
+                TrueText: ="Yes"
+                X: =Parent.Width  - Self.Width - 30
+                Y: =12
+                ZIndex: =2
+
+            ErrorMessage28 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue25.Y + DataCardValue25.Height
+                ZIndex: =3
+
+            StarVisible28 As label:
+                Align: =Align.Center
+                Height: =DataCardKey26.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey26.Y
+                ZIndex: =4
+
+        name_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="petname"
+            Default: =ThisItem.name
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@pets],DataSourceInfo.DisplayName,name)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@pets], DataSourceInfo.MaxLength, name)
+            Required: =false
+            Update: =DataCardValue5.Text
+            Width: =398
+            X: =0
+            Y: =0
+            ZIndex: =47
+
+            DataCardKey5 As label:
+                AutoHeight: =true
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =34
+                Text: ="Name"
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue5.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue5 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey5.X + DataCardKey5.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage5 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue5.Y + DataCardValue5.Height
+                ZIndex: =3
+
+            StarVisible5 As label:
+                Align: =Align.Center
+                Height: =DataCardKey5.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey5.Y
+                ZIndex: =4
+
+        breed_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="breed"
+            Default: =ThisItem.breed
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@pets],DataSourceInfo.DisplayName,breed)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@pets], DataSourceInfo.MaxLength, breed)
+            Required: =false
+            Update: =DataCardValue7.Text
+            Width: =398
+            X: =0
+            Y: =1
+            ZIndex: =47
+
+            DataCardKey7 As label:
+                AutoHeight: =true
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =34
+                Text: ="Breed"
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue7.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue7 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey7.X + DataCardKey7.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage7 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue7.Y + DataCardValue7.Height
+                ZIndex: =3
+
+            StarVisible7 As label:
+                Align: =Align.Center
+                Height: =DataCardKey7.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey7.Y
+                ZIndex: =4
+
+        rating_DataCard2 As typedDataCard.numberEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="rating"
+            Default: =ThisItem.rating
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@pets],DataSourceInfo.DisplayName,rating)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =Value(DataCardValue20.Text)
+            Width: =398
+            X: =0
+            Y: =3
+            ZIndex: =47
+
+            DataCardKey12 As label:
+                AutoHeight: =true
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =34
+                Text: ="Rating"
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue20.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue20 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                Format: =TextFormat.Number
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey12.X + DataCardKey12.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage17 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue20.Y + DataCardValue20.Height
+                ZIndex: =3
+
+            StarVisible17 As label:
+                Align: =Align.Center
+                Height: =DataCardKey12.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey12.Y
+                ZIndex: =4
+
+        dob_DataCard1 As typedDataCard.dateEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="dob"
+            Default: =ThisItem.dob
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@pets],DataSourceInfo.DisplayName,dob)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue24.SelectedDate
+            Width: =398
+            X: =0
+            Y: =4
+            ZIndex: =47
+
+            DataCardKey23 As label:
+                AutoHeight: =true
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =34
+                Text: ="Date of Birth"
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue24.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue24 As datepicker:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultDate: =Parent.Default
+                DisabledBorderColor: =RGBA(237, 237, 237, 1)
+                DisplayMode: =Parent.DisplayMode
+                EndYear: =Year(Today())+100
+                Fill: =RGBA(202, 202, 202, 1)
+                IsEditable: =true
+                PaddingBottom: =0
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                StartYear: =1899
+                Tooltip: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey23.X + DataCardKey23.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage27 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue24.Y + DataCardValue24.Height
+                ZIndex: =3
+
+            StarVisible27 As label:
+                Align: =Align.Center
+                Height: =DataCardKey23.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey23.Y
+                ZIndex: =4
+
+        address_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="address"
+            Default: =ThisItem.address
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@pets],DataSourceInfo.DisplayName,address)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@pets], DataSourceInfo.MaxLength, address)
+            Required: =false
+            Update: =DataCardValue23.Text
+            Width: =398
+            X: =0
+            Y: =5
+            ZIndex: =47
+
+            DataCardKey22 As label:
+                AutoHeight: =true
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =34
+                Text: ="Address"
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue23.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue23 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey22.X + DataCardKey22.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage26 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue23.Y + DataCardValue23.Height
+                ZIndex: =3
+
+            StarVisible26 As label:
+                Align: =Align.Center
+                Height: =DataCardKey22.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey22.Y
+                ZIndex: =4
+
+        description_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="description"
+            Default: =ThisItem.description
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@pets],DataSourceInfo.DisplayName,description)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@pets], DataSourceInfo.MaxLength, description)
+            Required: =false
+            Update: =DataCardValue19.Text
+            Width: =398
+            X: =0
+            Y: =6
+            ZIndex: =47
+
+            DataCardKey10 As label:
+                AutoHeight: =true
+                Color: =RGBA(0, 0, 0, 1)
+                Height: =34
+                Text: ="Description"
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue19.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue19 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey10.X + DataCardKey10.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage12 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue19.Y + DataCardValue19.Height
+                ZIndex: =3
+
+            StarVisible12 As label:
+                Align: =Align.Center
+                Height: =DataCardKey10.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey10.Y
+                ZIndex: =4
+
+    Icon4 As icon.Check:
+        Height: =42
+        Icon: =Icon.Check
+        OnSelect: |-
+            =SubmitForm(Form3);
+            Set(showpetform,false)
+        Visible: =showpetform
+        Width: =55
+        X: =876
+        Y: =36
+        ZIndex: =47
+
+    lblUserName_6 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Font: =Font.'Segoe UI'
+        Text: =User().FullName
+        X: =1173
+        ZIndex: =48
+

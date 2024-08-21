@@ -1,0 +1,81 @@
+{
+  "bf4e6cc1-b1cd-41f0-bc04-1c4ebd4c5a8a": {
+    "appActions": [
+      "UserPhoto_V2",
+      "UserPhotoMetadata",
+      "MyProfile"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1702/1.0.1702.3810/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "bf4e6cc1-b1cd-41f0-bc04-1c4ebd4c5a8a"
+  },
+  "e0298c99-8cd7-439b-816a-ef5fc1ed9fff": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/jayawan/releases/v1.0.1697/1.0.1697.3786/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://judgegrp.sharepoint.com/sites/TeamCloud": {
+        "dataSources": {
+          "Complaints": {
+            "tableName": "9f35eb76-4753-4009-82e1-493d95f9bcc0"
+          },
+          "Invoice pdf": {
+            "tableName": "94e06617-d504-4ea6-86a9-4eaca349bafc"
+          },
+          "Invoice System": {
+            "tableName": "2de6ab24-885d-403c-91b8-b37a317a578c"
+          },
+          "Invoice System Tasks": {
+            "tableName": "87b091b1-8a44-45eb-b43b-82b06190e047"
+          },
+          "Invoice_data": {
+            "tableName": "8e26ebb1-872e-4d0c-a3d6-438365584569"
+          },
+          "pets": {
+            "tableName": "28b18d56-b51e-4f81-8dee-08cfea145a4f"
+          },
+          "trip": {
+            "tableName": "cc07656a-ffcf-4326-bc86-99433e01421a"
+          },
+          "User": {
+            "tableName": "c1756b5e-2404-4f2e-96f1-da9996a10dd6"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "User",
+      "Invoice System Tasks",
+      "Invoice System",
+      "Invoice_data",
+      "Complaints",
+      "Invoice pdf",
+      "pets",
+      "trip"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "e0298c99-8cd7-439b-816a-ef5fc1ed9fff"
+  }
+}

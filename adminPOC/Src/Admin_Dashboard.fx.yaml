@@ -1,0 +1,1049 @@
+Admin_Dashboard As screen:
+    OnVisible: |
+        =ClearCollect(
+            UserCollection,
+            User
+        );
+        ClearCollect(
+            WalkerUsers,
+            Filter(
+                User,
+                Role.Value = "Walker"
+            )
+        );
+        Set(
+            TotalCountUser,
+            CountRows(UserCollection)
+        );
+        Set(
+            BlockedCountUser,
+            CountIf(
+                UserCollection,
+                IsBlocked
+            )
+        );
+        Set(
+            AvailableUser,
+            TotalCountUser - BlockedCountUser
+        );
+        Set(
+            BlockedCountUser,
+            CountIf(
+                UserCollection,
+                IsBlocked
+            )
+        );
+        Set(
+            WalkerCount,
+            CountIf(
+                UserCollection,
+                Role.Value = "Walker" And !IsBlocked
+            )
+        );
+        Set(
+            BlockedWalkerCount,
+            CountIf(
+                UserCollection,
+                Role.Value = "Walker" And IsBlocked
+            )
+        );
+        ClearCollect(
+            petCollection,
+            pets
+        );
+        ClearCollect(
+            PetsCollection,
+            pets
+        );
+        Set(
+            TotalCountPet,
+            CountRows(PetsCollection)
+        );
+        Set(
+            BlockedCountPet,
+            CountIf(
+                PetsCollection,
+                IsBlocked
+            )
+        );
+        Set(
+            PetAvailable,
+            TotalCountPet - BlockedCountPet
+        );
+        Set(
+            BlockedPetCount,
+            CountIf(
+                PetsCollection,
+                IsBlocked
+            )
+        );
+        //.Value
+        ClearCollect(
+            TripCollection,
+            trip
+        );
+        Set(
+            TripCount,
+            CountRows(TripCollection)
+        );
+        Set(
+            CompletedCountTrip,
+            CountIf(
+                TripCollection,
+                isCompleted
+            )
+        );
+        Set(
+            TotalCount,
+            CountRows(TripCollection)
+        );
+        Set(
+            CompletedCount,
+            CountIf(
+                TripCollection,
+                isCompleted
+                
+            )
+        );
+        Set(
+            CancledTrip,
+            //TotalCount - CompletedCountTrip
+            CountIf(
+                TripCollection,
+                isAccepted.Value ="Reject"
+            )
+        );
+        ClearCollect(
+            ComplaintsCollection,
+            Complaints
+        );
+        Set(
+            TotalComplaintsCount,
+            CountRows(ComplaintsCollection)
+        );
+        Set(
+            OpenComplaintsCount,
+            CountIf(
+                ComplaintsCollection,
+                Status.Value = "Open"
+            )
+        );
+        Set(
+            ResolvedComplaintsCount,
+            CountIf(
+                ComplaintsCollection,
+                Status.Value = "Closed"
+            )
+        );
+        Set(
+            TotalTripCostWalkerRevenue,
+            Sum(
+                Filter(
+                    TripCollection,
+                    isCompleted = true
+                ),
+                tripCost
+            )
+        );
+        
+        Set(
+            TotalTripCostOwner,
+            Sum(
+                Filter(
+                TripCollection,
+                isCompleted = true,
+                isPaid = 1
+                ),
+                tripCost
+            )
+        );
+        //ClearCollect(TripsCollectiongraph, trip);
+        ClearCollect(
+            TripsCollectiongraph,
+            trip
+        );
+        
+        
+        
+        //ClearCollect(DailyCosts,AddColumns(GroupBy(TripsCollectiongraph,startDate,DailyTrips),TotalCost,Sum(DailyTrips, tripCost)));
+        
+        
+        
+        
+        ClearCollect(
+            DailyCosts,
+            AddColumns(
+                GroupBy(
+                    AddColumns(
+                        TripsCollectiongraph,
+                        FormattedDate,
+                        Text(startDate, "[$-en-US]dd/mmm/yyyy")
+                    ),
+                    FormattedDate,
+                    DailyTrips
+                ),
+                TotalCost,
+                Sum(DailyTrips, tripCost)
+            )
+        );
+
+    Container1_8 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semibold
+        Height: =187
+        Width: =150
+        X: =740
+        Y: =50
+        ZIndex: =1
+
+        Rectangle14_4 As rectangle:
+            Fill: =RGBA(202, 202, 202, 1)
+            Y: =87
+            ZIndex: =1
+
+        Rectangle13_4 As rectangle:
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =76
+            ZIndex: =2
+
+        Label2_8 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =34
+            Size: =18
+            Text: ="Complaints"
+            ZIndex: =3
+
+        Label3_9 As label:
+            Align: =Align.Center
+            Height: =42
+            OnSelect: =Navigate(Complaints_Details)
+            Size: =20
+            Text: |-
+                =//CountRows(Complaints)
+                TotalComplaintsCount
+            Y: =34
+            ZIndex: =4
+
+        Label4_32 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =37
+            Size: =15
+            Text: ="Open"
+            Width: =106
+            Y: =101
+            ZIndex: =5
+
+        Label4_33 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Size: =15
+            Text: ="Resolved"
+            Width: =98
+            X: =8
+            Y: =159
+            ZIndex: =6
+
+        Label4_34 As label:
+            Align: =Align.Center
+            Height: =37
+            Size: =15
+            Text: |-
+                =//CountIf(Complaints,Status.Value = "Open")
+                OpenComplaintsCount
+            Width: =51
+            X: =99
+            Y: =101
+            ZIndex: =7
+
+        Label4_35 As label:
+            Align: =Align.Center
+            Height: =30
+            Size: =15
+            Text: |-
+                =//CountIf(Complaints,Status.Value = "Resolved")
+                ResolvedComplaintsCount
+            Width: =52
+            X: =98
+            Y: =153
+            ZIndex: =8
+
+    Container1_5 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semibold
+        Height: =187
+        Width: =150
+        X: =240
+        Y: =48
+        ZIndex: =2
+
+        Rectangle14_1 As rectangle:
+            Fill: =RGBA(202, 202, 202, 1)
+            Height: =99
+            Y: =88
+            ZIndex: =1
+
+        Rectangle13_1 As rectangle:
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =76
+            ZIndex: =2
+
+        Label2_5 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =34
+            Size: =18
+            Text: ="Walkers"
+            ZIndex: =3
+
+        Label3_5 As label:
+            Align: =Align.Center
+            Height: =42
+            OnSelect: =Navigate(Walker_Details)
+            Size: =20
+            Text: |-
+                =//CountIf(User,Role.Value="Walker")
+                CountRows(WalkerUsers)
+            Y: =34
+            ZIndex: =4
+
+        Label4_20 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =37
+            Size: =15
+            Text: ="Available"
+            Width: =106
+            Y: =101
+            ZIndex: =5
+
+        Label4_21 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Size: =15
+            Text: ="Blocked"
+            Width: =98
+            Y: =157
+            ZIndex: =6
+
+        Label4_22 As label:
+            Align: =Align.Center
+            Height: =37
+            Size: =15
+            Text: |-
+                =//CountIf(User,Role.Value="Walker" And IsActive) 
+                WalkerCount
+            Width: =51
+            X: =99
+            Y: =101
+            ZIndex: =7
+
+        Label4_23 As label:
+            Align: =Align.Center
+            Height: =30
+            Size: =15
+            Text: |
+                =//CountIf(User,Role.Value="Walker" And IsBlocked) 
+                BlockedWalkerCount
+            Width: =52
+            X: =98
+            Y: =152
+            ZIndex: =8
+
+    Container1_6 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semibold
+        Height: =187
+        Width: =150
+        X: =408
+        Y: =48
+        ZIndex: =3
+
+        Rectangle14_2 As rectangle:
+            Fill: =RGBA(202, 202, 202, 1)
+            Y: =87
+            ZIndex: =1
+
+        Rectangle13_2 As rectangle:
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =76
+            ZIndex: =2
+
+        Label2_6 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =34
+            Size: =18
+            Text: ="Pets"
+            Width: =142
+            X: =8
+            ZIndex: =3
+
+        Label3_7 As label:
+            Align: =Align.Center
+            Height: =42
+            OnSelect: =Navigate(Pet_Details)
+            Size: =20
+            Text: =CountRows(petCollection)
+            Y: =34
+            ZIndex: =4
+
+        Label4_24 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =37
+            Size: =15
+            Text: ="Available"
+            Width: =106
+            Y: =101
+            ZIndex: =5
+
+        Label4_25 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Size: =15
+            Text: ="Blocked"
+            Width: =98
+            X: =8
+            Y: =152
+            ZIndex: =6
+
+        Label4_26 As label:
+            Align: =Align.Center
+            Height: =37
+            Size: =15
+            Text: |-
+                =//CountRows(pets) - CountIf(pets,IsBlocked.Value) 
+                PetAvailable
+            Width: =51
+            X: =99
+            Y: =101
+            ZIndex: =7
+
+        Label4_27 As label:
+            Align: =Align.Center
+            Height: =30
+            Size: =15
+            Text: |-
+                =//CountIf(pets,IsBlocked.Value)
+                BlockedPetCount
+            Width: =52
+            X: =98
+            Y: =152
+            ZIndex: =8
+
+    Container1_7 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semibold
+        Height: =187
+        Width: =150
+        X: =577
+        Y: =50
+        ZIndex: =4
+
+        Rectangle14_3 As rectangle:
+            Fill: =RGBA(202, 202, 202, 1)
+            Y: =87
+            ZIndex: =1
+
+        Rectangle13_3 As rectangle:
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =76
+            ZIndex: =2
+
+        Label2_7 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =34
+            Size: =18
+            Text: ="Trips"
+            Width: =142
+            X: =8
+            ZIndex: =3
+
+        Label3_8 As label:
+            Align: =Align.Center
+            Height: =42
+            OnSelect: =Navigate(All_Trips)
+            Size: =20
+            Text: |-
+                =//CountRows(trip)
+                TripCount
+            Y: =34
+            ZIndex: =4
+
+        Label4_28 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =37
+            Size: =14
+            Text: ="Completed"
+            Width: =118
+            Y: =101
+            ZIndex: =5
+
+        Label4_29 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            Size: =14
+            Text: ="Rejected"
+            Width: =98
+            X: =8
+            Y: =153
+            ZIndex: =6
+
+        Label4_30 As label:
+            Align: =Align.Center
+            Height: =37
+            Size: =15
+            Text: |-
+                =//CountIf(trip,isCompleted)
+                CompletedCount
+            Width: =51
+            X: =99
+            Y: =101
+            ZIndex: =7
+
+        Label4_31 As label:
+            Align: =Align.Center
+            Height: =30
+            Size: =15
+            Text: |-
+                =//CountRows(trip) - CountIf(trip,isCompleted)
+                CancledTrip
+            Width: =52
+            X: =98
+            Y: =153
+            ZIndex: =8
+
+    lblUserName_3 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Font: =Font.'Segoe UI'
+        Text: =User().FullName
+        X: =1176
+        ZIndex: =5
+
+    imgUserProfileImage_2 As image:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        BorderThickness: =1
+        Height: =40
+        Image: =User().Image
+        OnSelect: =Navigate(profile)
+        RadiusBottomLeft: =150
+        RadiusBottomRight: =150
+        RadiusTopLeft: =150
+        RadiusTopRight: =150
+        Width: =40
+        X: =1321
+        Y: =5
+        ZIndex: =6
+
+    Container1 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semibold
+        Height: =187
+        Width: =150
+        X: =74
+        Y: =48
+        ZIndex: =7
+
+        Rectangle14 As rectangle:
+            Fill: =RGBA(202, 202, 202, 1)
+            Height: =99
+            Width: =158
+            Y: =88
+            ZIndex: =1
+
+        Rectangle13 As rectangle:
+            Fill: =RGBA(237, 237, 237, 1)
+            Height: =76
+            OnSelect: =Navigate(User_graph)
+            ZIndex: =2
+
+        Label2 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =34
+            Size: =18
+            Text: ="Users"
+            Width: =99
+            X: =29
+            ZIndex: =3
+
+        Label3 As label:
+            Align: =Align.Center
+            Height: =42
+            OnSelect: =Navigate(User_graph)
+            Size: =20
+            Text: |-
+                =//CountRows(User)
+                
+                CountRows(UserCollection)
+            Width: =99
+            X: =29
+            Y: =34
+            ZIndex: =4
+
+        Label4 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+            Height: =37
+            Size: =15
+            Text: ="Available"
+            Width: =106
+            Y: =101
+            ZIndex: =5
+
+        Label4_1 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Size: =15
+            Text: ="Blocked"
+            Width: =98
+            X: =8
+            Y: =153
+            ZIndex: =6
+
+        Label4_2 As label:
+            Align: =Align.Center
+            Height: =37
+            Size: =15
+            Text: |-
+                =//CountRows(User) - CountIf(User,IsBlocked)
+                AvailableUser
+            Width: =43
+            X: =106
+            Y: =99
+            ZIndex: =7
+
+        Label4_3 As label:
+            Align: =Align.Center
+            Height: =30
+            Size: =15
+            Text: |-
+                =//CountIf(user1,Role.Value="Pet Owner" And is_blocked="Yes")
+                //CountIf(User,IsBlocked)
+                BlockedCountUser
+            Width: =52
+            X: =98
+            Y: =147
+            ZIndex: =8
+
+    Container4 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semibold
+        Height: =187
+        Width: =453
+        X: =913
+        Y: =48
+        ZIndex: =33
+
+        Container1_9 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.Semibold
+            Height: =182
+            Width: =183
+            X: =20
+            ZIndex: =1
+
+            Rectangle14_5 As rectangle:
+                Fill: =RGBA(202, 202, 202, 1)
+                Height: =90
+                Width: =183
+                Y: =92
+                ZIndex: =1
+
+            Label3_10 As label:
+                Align: =Align.Center
+                Height: =42
+                OnSelect: =
+                Size: =20
+                Text: |-
+                    =
+                    //Sum(Filter(trip, isCompleted = ), tripCost)
+                    //"₹"& Sum(Filter(trip, isCompleted = true), tripCost)
+                    "₹" & TotalTripCostWalkerRevenue
+                Width: =183
+                Y: =116
+                ZIndex: =2
+
+            Rectangle13_5 As rectangle:
+                Fill: =RGBA(237, 237, 237, 1)
+                Height: =76
+                Width: =183
+                ZIndex: =3
+
+            Label2_9 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="Walker Revenue"
+                Width: =183
+                Y: =21
+                ZIndex: =4
+
+        Container1_10 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.Semibold
+            Height: =187
+            Width: =183
+            X: =262
+            ZIndex: =2
+
+            Rectangle14_6 As rectangle:
+                Fill: =RGBA(202, 202, 202, 1)
+                Height: =96
+                Width: =183
+                Y: =87
+                ZIndex: =1
+
+            Rectangle13_6 As rectangle:
+                Fill: =RGBA(237, 237, 237, 1)
+                Height: =76
+                Width: =183
+                ZIndex: =2
+
+            Label2_10 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =15
+                Text: ="Owner Spend"
+                Width: =183
+                Y: =21
+                ZIndex: =3
+
+            Label3_11 As label:
+                Align: =Align.Center
+                Height: =42
+                OnSelect: =
+                Size: =20
+                Text: |-
+                    =//"₹"& Sum(trip,tripCost)
+                    
+                    "₹" & TotalTripCostOwner
+                Width: =183
+                Y: =114
+                ZIndex: =4
+
+    CompositeColumnChart1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =35
+
+        Title1 As label:
+            Align: =Align.Center
+            Height: =44
+            Text: ="Booking Per Day"
+            Width: =957
+            X: =240
+            Y: =257
+            ZIndex: =36
+
+        ColumnChart1 As barChart:
+            GridStyle: =GridStyle.All
+            Height: =450
+            Items: = DailyCosts
+            ItemsGap: =2
+            Width: =957
+            X: =240
+            XLabelAngle: =30
+            Y: =305
+            ZIndex: =37
+
+    Side_Bar_5 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =60
+
+        shpmenubg_5 As rectangle:
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =768
+            Visible: =showmenu
+            Width: =275
+            ZIndex: =11
+
+        shpsidemenubg_5 As rectangle:
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =768
+            Width: =64
+            ZIndex: =12
+
+        menuOpen_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(showmenu,true)
+            Visible: =!showmenu
+            Width: =40
+            X: =12
+            ZIndex: =13
+
+        icnHome_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Home
+            OnSelect: =Navigate(Admin_Dashboard);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =82
+            ZIndex: =14
+
+        icnProfile_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Person
+            OnSelect: =Navigate(Owner_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =167
+            ZIndex: =15
+
+        icnPets_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.PhotosPictures
+            OnSelect: =Navigate(Pet_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =252
+            ZIndex: =16
+
+        icnTrips_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Location
+            OnSelect: =Navigate(All_Trips);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =438
+            ZIndex: =17
+
+        icnWalker_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.People
+            OnSelect: =Navigate(Walker_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =7
+            Y: =345
+            ZIndex: =18
+
+        iconInvoice_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.ListScrollEmpty
+            OnSelect: =Navigate(Invoice_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =545
+            ZIndex: =19
+
+        icnComplaints_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Support
+            OnSelect: =Navigate(Complaints_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Width: =40
+            X: =12
+            Y: =635
+            ZIndex: =20
+
+        icnLogout_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Leave
+            OnSelect: =Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false); Navigate('Login Screen')
+            Width: =40
+            X: =12
+            Y: =728
+            ZIndex: =21
+
+        btnHome_41 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Admin_Dashboard);Set(showmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Home"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =88
+            ZIndex: =22
+
+        btnProfile_5 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Owner_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Owner"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =173
+            ZIndex: =23
+
+        btnPets_5 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Pet_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Pets"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =258
+            ZIndex: =24
+
+        btnTrips_5 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(All_Trips);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Trips"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =446
+            ZIndex: =25
+
+        btnWalkers_5 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Walker_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Walkers"
+            Visible: =showmenu
+            Width: =213
+            X: =59
+            Y: =352
+            ZIndex: =26
+
+        btnInvoice_5 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Invoice_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Invoice"
+            Visible: =showmenu
+            Width: =213
+            X: =57
+            Y: =543
+            ZIndex: =27
+
+        btnComplaints_5 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Navigate(Complaints_Details);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Complaints"
+            Visible: =showmenu
+            Width: =213
+            X: =57
+            Y: =634
+            ZIndex: =28
+
+        btnLogout_5 As button:
+            Align: =Align.Left
+            Fill: =RGBA(0, 0, 0, 1)
+            Height: =34
+            HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            OnSelect: =Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false); Navigate('Login Screen')
+            PaddingBottom: =0
+            PaddingLeft: =8
+            PaddingRight: =0
+            PaddingTop: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Logout"
+            Visible: =showmenu
+            Width: =213
+            X: =60
+            Y: =734
+            ZIndex: =29
+
+        menuclose_5 As icon.Hamburger:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =40
+            Icon: =Icon.Hamburger
+            OnSelect: =Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Visible: =showmenu
+            Width: =40
+            X: =12
+            ZIndex: =30
+
+        shpMenuBgBlurr_28 As rectangle:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Fill: =RGBA(22, 38, 50, 0.5)
+            Height: =768
+            OnSelect: =Set(showmenu,false);Set(showmenu,false);Set(petsubmenu,false);Set(tripsubmenu,false);Set(invoicesubmenu,false)
+            Visible: =showmenu
+            Width: =1090
+            X: =276
+            ZIndex: =34
+
