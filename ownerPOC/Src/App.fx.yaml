@@ -1,0 +1,35 @@
+App As appinfo:
+    BackEnabled: =true
+    OnStart: |-
+        =ClearCollect(
+            uniquepetname,
+            ForAll(
+                Distinct(
+                    trip,
+                    petName
+                ),
+                {Result: ThisRecord.Value}
+            )
+        );
+        ClearCollect(
+            counttrip,
+            AddColumns(
+                uniquepetname,
+                Sum,
+                CountRows(
+                    Filter(
+                        trip,
+                        petName = uniquepetname[@Result]
+                    )
+                )
+            )
+        )
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

@@ -1,0 +1,614 @@
+SignUp As screen:
+
+    Image1_5 As image:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Height: =671
+        Image: |
+            =walker
+        ImagePosition: =ImagePosition.Fill
+        Width: =696
+        Y: =97
+        ZIndex: =1
+
+    Label2_5 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(116, 116, 116, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =97
+        Size: =40
+        Text: ="Pet Walker"
+        Width: =696
+        Y: =18
+        ZIndex: =2
+
+    lblSignUp_4 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(32, 54, 71, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =53
+        Size: =30
+        Text: ="Sign Up"
+        Width: =160
+        X: =940
+        Y: =62
+        ZIndex: =3
+
+    Label4_5 As label:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Text: ="Already have an Account ? "
+        Width: =230
+        X: =905
+        Y: =688
+        ZIndex: =4
+
+    btnlogin_4 As button:
+        Align: =Align.Left
+        BorderThickness: =0
+        Color: =RGBA(0, 121, 187, 1)
+        DisabledBorderColor: =RGBA(237, 237, 237, 1)
+        Fill: =RGBA(237, 237, 237, 1)
+        HoverBorderColor: =RGBA(237,237,237,1)
+        HoverColor: =RGBA(0, 121, 187, 1)
+        HoverFill: =RGBA(237,237,237,1)
+        OnSelect: =Navigate(Login)
+        PressedBorderColor: =RGBA(237,237,237,1)
+        PressedColor: |
+            =RGBA(0,121,187,1)
+        PressedFill: =RGBA(237,237,237,1)
+        Text: ="Login"
+        Width: =110
+        X: =1126
+        Y: =688
+        ZIndex: =5
+
+    Button7_5 As button:
+        BorderColor: =RGBA(116, 116, 116, 1)
+        BorderThickness: =3
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(237, 237, 237, 1)
+        Height: =538
+        HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+        RadiusBottomLeft: =50
+        RadiusBottomRight: =50
+        RadiusTopLeft: =50
+        RadiusTopRight: =50
+        Text: =
+        Width: =588
+        X: =748
+        Y: =132
+        ZIndex: =6
+
+    frmSignUp_4 As form:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        DataSource: =User
+        DefaultMode: =FormMode.New
+        Height: =398
+        NumberOfColumns: =1
+        Width: =516
+        X: =762
+        Y: =188
+        ZIndex: =7
+
+        Password_DataCard4_4 As typedDataCard.textualEditCard:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Password"
+            Default: =ThisItem.Password
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,Password)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =91
+            MaxLength: =DataSourceInfo([@User], DataSourceInfo.MaxLength, Password)
+            Required: =false
+            Update: =SignUpPassword_4.Text
+            Width: =516
+            X: =0
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey38_4 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(32, 54, 71, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =15
+                ZIndex: =1
+
+            SignUpPassword_4 As text:
+                BorderColor: |-
+                    =If(
+                        IsBlank(Self.Text),
+                        Parent.BorderColor,
+                        If(
+                            IsMatch(
+                                Self.Text,
+                                "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                            ),
+                            Parent.BorderColor,
+                            Color.Red
+                        )
+                    )
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                HintText: ="Enter your password here"
+                HoverBorderColor: =Self.BorderColor
+                HoverFill: =RGBA(205, 209, 213, 1)
+                MaxLength: =Parent.MaxLength
+                Mode: =If(var_Password_Visible,TextMode.SingleLine,TextMode.Password)
+                OnSelect: |-
+                    =Set(lblText6,false);
+                    Set(lblText3,false)
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey38_4.Y + DataCardKey38_4.Height + 5
+                ZIndex: =2
+
+        "'Confirm Password_DataCard2_4' As typedDataCard.textualEditCard":
+            BorderColor: =RGBA(32, 54, 71, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="ConfirmPassword"
+            Default: =ThisItem.'Confirm Password'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,'Confirm Password')
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =107
+            MaxLength: =DataSourceInfo([@User], DataSourceInfo.MaxLength, 'Confirm Password')
+            Required: =false
+            Update: =ConfirmPassword_4.Text
+            Width: =516
+            X: =0
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey39_4 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(32, 54, 71, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =15
+                ZIndex: =1
+
+            ConfirmPassword_4 As text:
+                BorderColor: |-
+                    =If(
+                        IsBlank(Self.Text),
+                        Parent.BorderColor,
+                        If(
+                            Self.Text = SignUpPassword_4.Text,
+                            Parent.BorderColor,
+                            Color.Red
+                        )
+                    )
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                HintText: ="Enter your password to confirm"
+                HoverBorderColor: =Self.BorderColor
+                HoverFill: =RGBA(205, 209, 213, 1)
+                MaxLength: =Parent.MaxLength
+                Mode: =If(var_ConfirmPassword_Visible,TextMode.SingleLine,TextMode.Password)
+                OnSelect: =
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey39_4.Y + DataCardKey39_4.Height + 5
+                ZIndex: =2
+
+        Role_DataCard1_3 As typedDataCard.comboBoxEditCard:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Role"
+            Default: =ThisItem.Role
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,Role)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue11_3.Selected
+            Visible: =false
+            Width: =516
+            X: =0
+            Y: =3
+            ZIndex: =1
+
+            DataCardKey12_3 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(32, 54, 71, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue11_3 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(100, 118, 132, 1)
+                ChevronHoverBackground: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+                DefaultSelectedItems: =["Pet Owner"]
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                HoverFill: =RGBA(205, 209, 213, 1)
+                Items: =Choices([@User].Role)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedFill: =RGBA(32, 54, 71, 1)
+                SearchFields: =["Value"]
+                SearchItems: =Choices(User.Role,DataCardValue11_3.SearchText)
+                SelectionFill: =RGBA(100, 118, 132, 1)
+                SelectMultiple: =false
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey12_3.Y + DataCardKey12_3.Height + 5
+                ZIndex: =2
+
+        GUID_DataCard2_3 As typedDataCard.textualEditCard:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="GUID0"
+            Default: =newGUID
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,Title)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =
+            Required: =false
+            Update: =newGUID
+            Visible: =false
+            Width: =516
+            X: =0
+            Y: =4
+            ZIndex: =1
+
+            DataCardKey5_3 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(32, 54, 71, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            GUID As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                HoverBorderColor: =RGBA(32, 54, 71, 1)
+                HoverFill: =RGBA(205, 209, 213, 1)
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey5_3.Y + DataCardKey5_3.Height + 5
+                ZIndex: =2
+
+        FirstName_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="first_name"
+            Default: =ThisItem.FirstName
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,FirstName)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@User], DataSourceInfo.MaxLength, FirstName)
+            Required: =false
+            Update: ='First Name'.Text
+            Visible: =false
+            Width: =516
+            X: =0
+            Y: =5
+            ZIndex: =1
+
+            DataCardKey3_1 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(0, 18, 107, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            "'First Name' As text":
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Office365Users.UserProfile(SignUpEmail_4.Text).GivenName
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey3_1.Y + DataCardKey3_1.Height + 5
+                ZIndex: =2
+
+        LastName_DataCard1_1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="last_name"
+            Default: =ThisItem.LastName
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,LastName)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@User], DataSourceInfo.MaxLength, LastName)
+            Required: =false
+            Update: ='Last Name'.Text
+            Visible: =false
+            Width: =516
+            X: =0
+            Y: =6
+            ZIndex: =1
+
+            DataCardKey4_1 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(0, 18, 107, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            "'Last Name' As text":
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Office365Users.UserProfile(SignUpEmail_4.Text).Surname
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey4_1.Y + DataCardKey4_1.Height + 5
+                ZIndex: =2
+
+        address_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="address"
+            Default: =ThisItem.Address
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,Address)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@User], DataSourceInfo.MaxLength, Address)
+            Required: =false
+            Update: =address.Text
+            Visible: =false
+            Width: =516
+            X: =0
+            Y: =7
+            ZIndex: =1
+
+            DataCardKey1_1 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(0, 18, 107, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            address As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Office365Users.UserProfile(SignUpEmail_4.Text).City
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey1_1.Y + DataCardKey1_1.Height + 5
+                ZIndex: =2
+
+        Email_DataCard3_4 As typedDataCard.textualEditCard:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="email"
+            Default: =ThisItem.Email
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@User],DataSourceInfo.DisplayName,Email)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =82
+            MaxLength: =DataSourceInfo([@User], DataSourceInfo.MaxLength, Email)
+            Required: =false
+            Update: =SignUpEmail_4.Text
+            Width: =516
+            X: =0
+            Y: =0
+            ZIndex: =6
+
+            DataCardKey30_4 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 1)
+                Color: =RGBA(32, 54, 71, 1)
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =15
+                ZIndex: =7
+
+            SignUpEmail_4 As text:
+                BorderColor: |-
+                    =If(
+                        IsBlank(Self.Text),
+                        Parent.BorderColor,
+                        If(
+                            IsMatch(
+                                SignUpEmail_4.Text,
+                                "^[a-zA-Z0-9._%+-]+@india.judge.com"
+                            ),
+                            Parent.BorderColor,
+                            Color.Red
+                        )
+                    )
+                Default: =User().Email
+                DelayOutput: =true
+                DisplayMode: =DisplayMode.Disabled
+                HintText: ="Enter your email here"
+                HoverBorderColor: =Self.BorderColor
+                HoverFill: =RGBA(205, 209, 213, 1)
+                MaxLength: =Parent.MaxLength
+                OnSelect: |-
+                    =
+                    Set(lblText7,false)
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =49
+                ZIndex: =8
+
+    btnSignUp_4 As button:
+        DisplayMode: |
+            =If(IsMatch(
+                    SignUpEmail_4.Text,
+                    "^[a-zA-Z0-9._%+-]+@india.judge.com"
+                ) && IsMatch(SignUpPassword_4.Text,"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$") && SignUpPassword_4.Text = ConfirmPassword_4.Text , DisplayMode.Edit,DisplayMode.View)
+        Fill: =RGBA(116, 116, 116, 1)
+        HoverFill: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+        OnSelect: |
+            =Set(
+                newGUID,
+                GUID()
+            );
+            Set(Useremail,SignUpEmail_4.Text);
+            If(
+                IsEmpty(
+                    Filter(
+                        User,
+                        Email = SignUpEmail_4.Text
+                    )
+                ),
+                Registration.Run(
+                    SignUpEmail_4.Text,
+                    SignUpPassword_4.Text,
+                    ConfirmPassword_4.Text,
+                    'First Name'.Text,
+                    'Last Name'.Text,
+                    address.Text,
+                    GUID.Text
+                );
+                ResetForm(frmSignUp_4);
+                Navigate(Login),
+                Set(
+                    lblText7,
+                    true
+                ),
+                ResetForm(frmSignUp_4)
+            );
+        RadiusBottomLeft: =50
+        RadiusBottomRight: =50
+        RadiusTopLeft: =50
+        RadiusTopRight: =50
+        Text: ="Sign Up"
+        X: =962
+        Y: =560
+        ZIndex: =8
+
+    Icon8_11 As icon.Hide:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(32, 54, 71, 1)
+        Height: =22
+        Icon: =If(var_Password_Visible,Icon.Hide,Icon.View)
+        OnSelect: |-
+            =UpdateContext({var_Password_Visible:!var_Password_Visible});
+        Width: =20
+        X: =1216
+        Y: =338
+        ZIndex: =9
+
+    Icon8_12 As icon.Hide:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(32, 54, 71, 1)
+        Height: =22
+        Icon: =If(var_ConfirmPassword_Visible,Icon.Hide,Icon.View)
+        OnSelect: |-
+            =UpdateContext({var_ConfirmPassword_Visible:!var_ConfirmPassword_Visible});
+        Width: =20
+        X: =1216
+        Y: =435
+        ZIndex: =10
+
+    Label12_3 As label:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(166, 166, 166, 1)
+        Height: =57
+        Text: ="Password must be 8 or more characters and contain at least 1 number and 1 special character"
+        Width: =444
+        X: =798
+        Y: =480
+        ZIndex: =11
+
+    Label20_3 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(255, 0, 0, 1)
+        Font: =Font.'Segoe UI'
+        Height: =42
+        Size: =12
+        Text: ="Already have an account with this Email"
+        Visible: =lblText7
+        Width: =331
+        X: =876
+        Y: =616
+        ZIndex: =12
+

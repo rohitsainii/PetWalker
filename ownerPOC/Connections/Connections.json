@@ -1,0 +1,150 @@
+{
+  "1364a326-1b78-431d-a8ab-8bc96d126198": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1686/1.0.1686.3706/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [],
+    "dependencies": {},
+    "dependents": [
+      "99f6374a-b186-4752-a2d4-8d3b9c68d9d6"
+    ],
+    "id": "1364a326-1b78-431d-a8ab-8bc96d126198"
+  },
+  "88aac703-c3d2-4809-bdf4-745e6b636898": {
+    "appActions": [
+      "UserProfile",
+      "UserPhotoMetadata",
+      "UserPhoto_V2",
+      "UserPhoto",
+      "UserProfile_V2"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1702/1.0.1702.3810/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "88aac703-c3d2-4809-bdf4-745e6b636898"
+  },
+  "99f6374a-b186-4752-a2d4-8d3b9c68d9d6": {
+    "appActions": [
+      "Run"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1697/1.0.1697.3784/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "1364a326-1b78-431d-a8ab-8bc96d126198": {
+          "value": "shared_office365"
+        },
+        "d623b6e6-2d89-4997-b623-98557d0a09d6": {
+          "value": "shared_sharepointonline"
+        },
+        "workflowDisplayName": {
+          "value": "Registration"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "656969dc-6532-494f-8343-1be6efac99e5"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_office365": {
+          "value": "1364a326-1b78-431d-a8ab-8bc96d126198"
+        },
+        "shared_sharepointonline": {
+          "value": "d623b6e6-2d89-4997-b623-98557d0a09d6"
+        },
+        "workflowDisplayName": {
+          "value": "Registration"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "656969dc-6532-494f-8343-1be6efac99e5"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "Registration"
+    ],
+    "dependencies": {
+      "shared_office365": "1364a326-1b78-431d-a8ab-8bc96d126198",
+      "shared_sharepointonline": "d623b6e6-2d89-4997-b623-98557d0a09d6"
+    },
+    "dependents": [],
+    "id": "99f6374a-b186-4752-a2d4-8d3b9c68d9d6"
+  },
+  "d623b6e6-2d89-4997-b623-98557d0a09d6": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/jayawan/releases/v1.0.1697/1.0.1697.3786/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://judgegrp.sharepoint.com/sites/TeamCloud": {
+        "dataSources": {
+          "Complaints_1": {
+            "tableName": "9f35eb76-4753-4009-82e1-493d95f9bcc0"
+          },
+          "Invoice pdf": {
+            "tableName": "94e06617-d504-4ea6-86a9-4eaca349bafc"
+          },
+          "pet": {
+            "tableName": "10fe12b3-81eb-4a5e-b63b-fd09811b7296"
+          },
+          "pets": {
+            "tableName": "28b18d56-b51e-4f81-8dee-08cfea145a4f"
+          },
+          "trip": {
+            "tableName": "cc07656a-ffcf-4326-bc86-99433e01421a"
+          },
+          "Trips": {
+            "tableName": "01c57425-a488-4771-9b15-7501f537eea0"
+          },
+          "User": {
+            "tableName": "c1756b5e-2404-4f2e-96f1-da9996a10dd6"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "pet",
+      "trip",
+      "User",
+      "pets",
+      "Trips",
+      "Complaints_1",
+      "Invoice pdf"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "99f6374a-b186-4752-a2d4-8d3b9c68d9d6"
+    ],
+    "id": "d623b6e6-2d89-4997-b623-98557d0a09d6"
+  }
+}
