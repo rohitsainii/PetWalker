@@ -1,0 +1,395 @@
+Owner_Details As screen:
+
+    Container5_10 As groupContainer.manualLayoutContainer:
+        Height: =726
+        Width: =430
+        X: =936
+        Y: =42
+        ZIndex: =1
+
+        "Gallery4_6 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderColor: =RGBA(32, 54, 71, 1)
+            DelayItemLoading: =true
+            Fill: =RGBA(149, 149, 149, 1)
+            Height: =674
+            Items: |
+                =Filter(pet, Email = Gallery4_7.Selected.Email)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =Set(dogrecord, Gallery4_6.Selected)
+            TemplatePadding: =0
+            TemplateSize: =69
+            Width: =430
+            Y: =57
+            ZIndex: =2
+
+            Image8_6 As image:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =72
+                Image: =
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =72
+                X: =17
+                Y: =16
+                ZIndex: =1
+
+            Title5_6 As label:
+                Color: =RGBA(255, 255, 255, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - 173
+                X: =103
+                Y: =37
+                ZIndex: =2
+
+            Subtitle4_6 As label:
+                Color: =RGBA(255, 255, 255, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.petId.Value
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Title5_6.Width
+                X: =Title5_6.X
+                Y: =25
+                ZIndex: =3
+
+            Separator4_6 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =8
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - Self.Height
+                ZIndex: =5
+
+            Rectangle8_11 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Fill: =RGBA(32, 54, 71, 1)
+                Height: =Parent.TemplateHeight - Separator4_6.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4
+                ZIndex: =6
+
+            Label8_6 As label:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                Height: =32
+                OnSelect: =Select(Parent)
+                Text: =ThisItem.breed
+                Width: =165
+                X: =212
+                Y: =36
+                ZIndex: =7
+
+        Dropdown3_2 As dropdown:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            ChevronBackground: =RGBA(100, 118, 132, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(100, 118, 132, 1), -20%)
+            Height: =44
+            HoverFill: =RGBA(205, 209, 213, 1)
+            Items: =["New Trips", "Completed Trips", "Rejected Trips", "Upcoming Trips"]
+            PressedFill: =RGBA(32, 54, 71, 1)
+            SelectionFill: =RGBA(100, 118, 132, 1)
+            Width: =430
+            ZIndex: =3
+
+        Label22 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Text: ="Pet List"
+            X: =120
+            Y: =432
+            ZIndex: =4
+
+    Container5_12 As groupContainer.manualLayoutContainer:
+        Height: =714
+        Width: =430
+        X: =481
+        Y: =37
+        ZIndex: =2
+
+        Rectangle23_3 As rectangle:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Fill: =RGBA(149, 149, 149, 1)
+            Height: =375
+            Width: =427
+            X: =1
+            Y: =339
+            ZIndex: =1
+
+        Image9_4 As image:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Height: =233
+            Image: =
+            ImagePosition: =ImagePosition.Fill
+            Width: =427
+            X: =1
+            ZIndex: =3
+
+        Label6_42 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =58
+            Text: =Gallery4_7.Selected.gender.Value
+            Width: =172
+            X: =234
+            Y: =365
+            ZIndex: =6
+
+        Label6_43 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =46
+            Text: ="Gender"
+            Width: =172
+            X: =1
+            Y: =371
+            ZIndex: =7
+
+        Label6_46 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =45
+            Text: ="Date Of Birth"
+            Width: =172
+            X: =1
+            Y: =508
+            ZIndex: =8
+
+        Label6_45 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =58
+            Text: ="Address"
+            Width: =172
+            X: =1
+            Y: =432
+            ZIndex: =9
+
+        Label6_47 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =45
+            Text: =Gallery4_7.Selected.dateOfBirth
+            Width: =172
+            X: =214
+            Y: =508
+            ZIndex: =10
+
+        Label6_44 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =58
+            Text: =Gallery4_7.Selected.address
+            Width: =172
+            X: =214
+            Y: =438
+            ZIndex: =11
+
+        Label6_48 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =58
+            Text: ="Blocked"
+            Width: =172
+            X: =1
+            Y: =576
+            ZIndex: =12
+
+        Label6_49 As label:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =58
+            Text: =Gallery4_7.Selected.isBookingAllowed
+            Width: =172
+            X: =214
+            Y: =576
+            ZIndex: =13
+
+        Label13_4 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(32, 54, 71, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =50
+            Size: =18
+            Text: =Gallery4_7.Selected.FirstName & " " & Gallery4_7.Selected.LastName
+            Width: =386
+            X: =20
+            Y: =233
+            ZIndex: =14
+
+        Rating1_4 As rating:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Default: =Gallery4_7.Selected.rating
+            DisplayMode: =DisplayMode.View
+            Height: =38
+            RatingFill: =RGBA(255, 191, 0, 1)
+            Width: =268
+            X: =79
+            Y: =287
+            ZIndex: =15
+
+        Radio2_1 As radio:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Default: =If(Gallery4_7.Selected.isBookingAllowed, "Yes", "No")
+            FontWeight: =FontWeight.Lighter
+            Height: =53
+            HoverColor: =RGBA(32, 54, 71, 1)
+            Items: =["Yes", "No"]
+            OnSelect: =
+            RadioBorderColor: =RGBA(32, 54, 71, 1)
+            RadioSize: =20
+            Width: =101
+            X: =327
+            Y: =661
+            ZIndex: =16
+
+    Container5_11 As groupContainer.manualLayoutContainer:
+        Height: =713
+        Width: =423
+        X: =40
+        Y: =40
+        ZIndex: =3
+
+        "Gallery4_7 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            BorderColor: =RGBA(32, 54, 71, 1)
+            DelayItemLoading: =true
+            Fill: =RGBA(149, 149, 149, 1)
+            Height: =659
+            Items: |-
+                =//Search(user1,searchpet_1.Text , FirstName, LastName);
+                Filter(user1, Role.Value = "Pet Owner")
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =Set(dogrecord, Gallery4_7.Selected)
+            TemplatePadding: =0
+            TemplateSize: =94
+            Width: =422
+            Y: =54
+            ZIndex: =2
+
+            Image8_7 As image:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =72
+                Image: =ThisItem.image
+                OnSelect: =Select(Parent)
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                Width: =72
+                X: =17
+                Y: =14
+                ZIndex: =1
+
+            Title5_7 As label:
+                Color: =RGBA(255, 255, 255, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =27
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.FirstName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =110
+                X: =103
+                Y: =13
+                ZIndex: =2
+
+            Subtitle4_7 As label:
+                Color: =RGBA(255, 255, 255, 1)
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Role.Value
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Title5_7.Width
+                X: =213
+                Y: =19
+                ZIndex: =3
+
+            Separator4_7 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Height: =13
+                OnSelect: =Select(Parent)
+                Width: =421
+                Y: =Parent.TemplateHeight - Self.Height
+                ZIndex: =5
+
+            Rectangle8_12 As rectangle:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Fill: =RGBA(32, 54, 71, 1)
+                Height: =Parent.TemplateHeight - Separator4_7.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4
+                ZIndex: =6
+
+            Label8_7 As label:
+                BorderColor: =RGBA(32, 54, 71, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                Height: =32
+                OnSelect: =Select(Parent)
+                Text: =ThisItem.gender.Value
+                Width: =165
+                X: =120
+                Y: =40
+                ZIndex: =7
+
+        searchpet_1 As text:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Default: =
+            HintText: ="Search..."
+            HoverBorderColor: =RGBA(32, 54, 71, 1)
+            HoverFill: =RGBA(205, 209, 213, 1)
+            Width: =423
+            Y: =4
+            ZIndex: =5
+
+        Icon8_6 As icon.Search:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Color: =RGBA(32, 54, 71, 1)
+            Height: =40
+            Icon: =Icon.Search
+            OnSelect: =
+            Width: =25
+            X: =396
+            Y: =4
+            ZIndex: =6
+
+    Rectangle2_6 As rectangle:
+        BorderColor: =RGBA(149, 149, 149, 1)
+        BorderThickness: =4
+        Fill: |-
+            =RGBA(116
+            , 116, 116, 1)
+        Height: =42
+        Width: =1302
+        X: =64
+        ZIndex: =4
+
