@@ -285,11 +285,14 @@ Login As screen:
                             Switch(
                                 userrolevalue,
                                 "Admin",
-                                Launch("https://apps.powerapps.com/play/e/f5ce2cb7-6643-e5ff-816b-af34b6e8311a/a/7f1ef561-1ba6-4a2a-945a-95e93058b293?tenantId=0108c522-b331-4fdb-8e2b-8084a2812680&sourcetime=1724143965754"),
+                                Launch("https://apps.powerapps.com/play/e/bb524e05-b710-e352-897e-7b2dc6b10a09/a/a32f253f-7496-4093-9c88-9d4bc75eac30?tenantId=0108c522-b331-4fdb-8e2b-8084a2812680&sourcetime=1724230891091"),
                                 "Walker",
-                                Launch("https://apps.powerapps.com/play/e/f5ce2cb7-6643-e5ff-816b-af34b6e8311a/a/3a4cc9c6-2389-4330-a222-419622f56e98?tenantId=0108c522-b331-4fdb-8e2b-8084a2812680&sourcetime=1723638734142"),
+                                Launch("https://apps.powerapps.com/play/e/bb524e05-b710-e352-897e-7b2dc6b10a09/a/082d727e-328e-4a94-b3e9-7954ed448fed?tenantId=0108c522-b331-4fdb-8e2b-8084a2812680&sourcetime=1724230853622"),
+                                
+                                
                                 "Pet Owner",
-                                Launch("https://apps.powerapps.com/play/e/f5ce2cb7-6643-e5ff-816b-af34b6e8311a/a/ce658031-a8b8-4763-965c-5b4cb1cc9290?tenantId=0108c522-b331-4fdb-8e2b-8084a2812680&sourcetime=1724144154555"),
+                                Launch("https://apps.powerapps.com/play/e/bb524e05-b710-e352-897e-7b2dc6b10a09/a/41623309-1d4a-4381-9a16-3ab986fde4f4?tenantId=0108c522-b331-4fdb-8e2b-8084a2812680&sourcetime=1724231002996
+            "),
                                 Notify("Login Successful")
                             )
                         )
